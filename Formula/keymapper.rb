@@ -1,11 +1,11 @@
 # Homebrew formula for keymapper.
 #
 # Builds the Rust crate from source.  On macOS, remapped keys are emitted
-# through the Karabiner DriverKit VirtualHIDDevice driver (installed via the
-# karabiner-driverkit-virtualhiddevice cask dependency); the formula then
-# registers the virtkbdd LaunchDaemon (root, emits mapped keys) and the
-# keymapperd LaunchAgent (user domain, captures keyboard events), activates
-# the DriverKit extension, and registers the Karabiner daemon LaunchDaemon.
+# through the Karabiner DriverKit VirtualHIDDevice driver; the install script
+# installs that pinned driver package, registers the virtkbdd LaunchDaemon
+# (root, emits mapped keys) and the keymapperd LaunchAgent (user domain,
+# captures keyboard events), activates the DriverKit extension, and registers
+# the Karabiner daemon LaunchDaemon.
 # On Linux, it registers the keymapperd systemd user service.  The services
 # are managed by launchd / systemctl --user and controlled with
 # `keymapper daemon status|start|stop` (not by `brew services`).
@@ -18,18 +18,12 @@ class Keymapper < Formula
   homepage "https://github.com/mamrhein/keymapper.rs"
 
   # Update version for each release (the url interpolates it).
-  version "0.2.0-alpha.5"
-  url "https://github.com/mamrhein/keymapper.rs/archive/refs/tags/v0.2.0-alpha.5.tar.gz"
+  version "0.2.1"
+  url "https://github.com/mamrhein/keymapper.rs/archive/refs/tags/v0.2.1.tar.gz"
 
   license "BSD-3-Clause"
 
   depends_on "rust" => :build
-
-  on_macos do
-    # The driver through which virtkbdd emits remapped keys.  The cask
-    # installs the package only; activation happens in install below.
-    depends_on "mamrhein/keymapper/karabiner-driverkit-virtualhiddevice"
-  end
 
   def install
     # Build and install all Rust binaries (keymapper, keymapperd, virtkbdd,
@@ -47,9 +41,8 @@ class Keymapper < Formula
 
     on_macos do
       # Register the virtkbdd LaunchDaemon and the keymapperd LaunchAgent,
-      # install the Karabiner DriverKit package (if not already installed by
-      # the cask), activate the extension, and register the Karabiner daemon
-      # LaunchDaemon.  Requires sudo.
+      # install the Karabiner DriverKit package, activate the extension, and
+      # register the Karabiner daemon LaunchDaemon.  Requires sudo.
       system "sudo", "scripts/install-macos.sh",
         prefix/"bin/keymapperd", prefix/"bin/virtkbdd"
     end
