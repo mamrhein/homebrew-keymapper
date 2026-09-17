@@ -16,10 +16,10 @@
 cask "keymapper-bin" do
   arch arm: "aarch64-apple-darwin", intel: "x86_64-apple-darwin"
 
-  version "0.2.4"
+  version "0.2.5"
   # Replaced by the homebrew-tap workflow with the release asset checksums.
-  sha256 arm:   "b9b81fdb289d5330c016ed49d1c2088f46dd16054cd01528b23e95db81da09ef",
-         intel: "87affcac4a0f5eb8358ba13ab2e862522f489904e1ade60a1a6fe2cc3b0d97ae"
+  sha256 arm:   "66ab92fdabcfe44e4d6a77be943f2e66762473c80695b37d58c84b7f517b9b7b",
+         intel: "785e7700fdaf5ce53df07e2f8910414bb7cff665e9c9d31b0f043832ed4ae7a5"
 
   # The url interpolates the version, so only the version and checksums need
   # updating on a release.
