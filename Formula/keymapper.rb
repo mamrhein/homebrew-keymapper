@@ -18,16 +18,15 @@ class Keymapper < Formula
   homepage "https://github.com/mamrhein/keymapper.rs"
 
   # Update version for each release (the url interpolates it).
-  version "0.2.6"
-  url "https://github.com/mamrhein/keymapper.rs/archive/refs/tags/v0.2.6.tar.gz"
+  version "0.3.0"
+  url "https://github.com/mamrhein/keymapper.rs/archive/refs/tags/v0.3.0.tar.gz"
 
   license "BSD-3-Clause"
 
   depends_on "rust" => :build
 
   def install
-    # Build and install all Rust binaries (keymapper, keymapperd, virtkbdd,
-    # keymapper_reader).
+    # Build and install all Rust binaries (keymapper, keymapperd, virtkbdd).
     system "cargo", "install", "--path", ".", "--root", prefix, "--locked"
 
     # Keep the uninstall scripts in the prefix so `brew uninstall` can stop
