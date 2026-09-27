@@ -16,10 +16,10 @@
 cask "keymapper-bin" do
   arch arm: "aarch64-apple-darwin", intel: "x86_64-apple-darwin"
 
-  version "0.3.0"
+  version "0.3.2"
   # Replaced by the homebrew-tap workflow with the release asset checksums.
-  sha256 arm:   "290bf9ced578452ab5a4ea0a1b8810955210ad9b4d094d23d22aa91a1b314959",
-         intel: "468e31f6f73dd419dc7b6867b53f03a244cfca6e5d60d222233465f3657ba61e"
+  sha256 arm:   "231fdec78a36ac84eee2e2cac1088166e2bda5f448ddc342ff845f24119bf9d6",
+         intel: "ab19b8d61195aff65f2a056474eff238244aa40b451bdd9ea7440847d9a5a586"
 
   # The url interpolates the version, so only the version and checksums need
   # updating on a release.
@@ -28,11 +28,11 @@ cask "keymapper-bin" do
   homepage "https://github.com/mamrhein/keymapper.rs"
 
   # The release archive extracts to dist/keymapper/v<version>/ in the staging
-  # directory; all paths below are relative to it.  The installer runs before
+  # directory; all paths below are relative to it. The installer runs before
   # the binaries are linked, so it takes the staged daemon paths as arguments.
   # It registers the virtkbdd LaunchDaemon and the keymapperd LaunchAgent,
   # installs the Karabiner DriverKit package, activates the extension, and
-  # registers the Karabiner daemon LaunchDaemon.  Requires sudo.  The script
+  # registers the Karabiner daemon LaunchDaemon. Requires sudo. The script
   # runs from the staging directory so it can find its sibling scripts and
   # the launchd plist templates.
   installer script: {
@@ -42,13 +42,14 @@ cask "keymapper-bin" do
     sudo:       true,
   }
   # Only the CLI is linked into Homebrew's bin — the daemons are installed by
-  # the script to their canonical locations (/usr/local/bin/virtkbdd and
-  # ~/.local/bin/keymapperd), which would conflict with a bin link on Intel
-  # Macs.
+  # the script to their canonical locations (/Library/Application Support/
+  # keymapper/virtkbdd and ~/.local/bin/keymapperd). In particular, virtkbdd
+  # is kept out of /usr/local/bin, which is admin-writable on Intel Macs and
+  # would allow replacing the root-run daemon binary.
   binary "dist/keymapper/v#{version}/keymapper"
 
   # Runs before the staged files are removed, so the script (and its sibling
-  # uninstall-karabiner-macos.sh) is still available.  Requires sudo.
+  # uninstall-karabiner-macos.sh) is still available. Requires sudo.
   uninstall script: {
     executable: "dist/keymapper/v#{version}/uninstall-macos.sh",
     sudo:       true,
