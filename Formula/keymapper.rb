@@ -18,8 +18,8 @@ class Keymapper < Formula
   homepage "https://github.com/mamrhein/keymapper.rs"
 
   # Update version for each release (the url interpolates it).
-  version "0.3.2"
-  url "https://github.com/mamrhein/keymapper.rs/archive/refs/tags/v0.3.2.tar.gz"
+  version "0.3.3-alpha.0"
+  url "https://github.com/mamrhein/keymapper.rs/archive/refs/tags/v0.3.3-alpha.0.tar.gz"
 
   license "BSD-3-Clause"
 
